@@ -9,6 +9,9 @@ from selenium.webdriver.common.by import By
 links = []
 l = []
 
+
+
+
 def titulo_in():
     titulo_ = 'WEBSCRAPING - RECLAME AQUI'
     print('='*40)
@@ -41,7 +44,10 @@ def def_operadora():
 
 def abrir_navegador():
     global chrome, wait
-    chrome = webdriver.Chrome(executable_path='C:\PYTHON\chromedriver')
+    options = webdriver.ChromeOptions()
+    options.add_argument('--ignore-certificate-errors-spki-list')
+    options.add_argument('--ignore-ssl-errors')
+    chrome = webdriver.Chrome(executable_path='C:\PYTHON\chromedriver', chrome_options=options)
     wait = WebDriverWait(chrome, 1)
     print('Navegador aberto...')
 
@@ -80,6 +86,9 @@ for c in range(1, qtd_pag+1):
         while recarregar is False:
             try:
                 carregando_url(f'{url_in}{link}')
+                ra_page2 = bs(chrome.page_source, 'html.parser')
+                selection_1 = ra_page2.find('div', {'class': 'col-md-10 col-sm-12'})
+                selection_2 = selection_1.find('ul')
             except:
                 contador += 3
                 sleep(3)
@@ -92,9 +101,7 @@ for c in range(1, qtd_pag+1):
             else:
                 print('Página carregada com sucesso...')
                 break
-        ra_page2 = bs(chrome.page_source, 'html.parser')
-        selection_1 = ra_page2.find('div', {'class': 'col-md-10 col-sm-12'})
-        selection_2 = selection_1.find('ul') #se continuar dando erro terei que incluir esta parte no try
+        
         titulo = selection_1.find('h1').text.strip()
         empresa = selection_1.find('p').text.strip()
         local = selection_2.find('li', {'class':'ng-binding'}).text.strip()
