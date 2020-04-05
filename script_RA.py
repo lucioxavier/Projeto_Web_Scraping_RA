@@ -9,9 +9,6 @@ from selenium.webdriver.common.by import By
 links = []
 l = []
 
-
-
-
 def titulo_in():
     titulo_ = 'WEBSCRAPING - RECLAME AQUI'
     print('='*40)
@@ -116,6 +113,6 @@ for c in range(1, qtd_pag+1):
         sleep(4)
         contador = 0
     links.clear()
-    print(f'carregou todas deste bloco')
+    print(f'Todos links deste bloco carregados.')
 
 chrome.quit()
